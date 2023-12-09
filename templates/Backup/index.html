@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Database</title>
+
+    <style>
+        /* Add some basic styling for the navigation bar */
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between; /* Add this line to separate sections */
+            align-items: center; /* Align items vertically in the center */
+        }
+
+        /* Style the "About Me" button */
+        #aboutButton {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px; /* Rounded corners */
+            cursor: pointer;
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Style the search bar */
+        #searchContainer {
+            display: flex;
+            align-items: center;
+        }
+
+        #searchBar {
+            padding: 5px;
+            margin-right: 10px;
+            width: 200px; /* Adjust width as needed */
+            border: none;
+            border-radius: 20px; /* Rounded corners */
+            outline: none;
+        }
+
+        #searchButton {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px; /* Rounded corners */
+            cursor: pointer;
+        }
+
+        /* Add styling for the one-liner about the book store */
+        .one-liner {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Style the slider container */
+        .slider-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .slider-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for the desired tint */
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider div {
+            width: 100%;
+        }
+
+        .slider div:first-child img {
+            width: 100%;
+            height: 100vh; /* Adjust this value as needed */
+            object-fit: cover; /* This ensures the image covers the entire space, maintaining its aspect ratio */
+        }
+
+        .slider div:first-child h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+
+        /* Style the full-screen image */
+        .full-screen-image {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        /* Style the product listing grid */
+        .product-listing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px; /* Adjust this value as needed */
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .product-card-content {
+            padding: 10px;
+        }
+
+        /* Style the footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Style the embedded Google Maps */
+        #map {
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            margin-top: 20px;
+        }
+
+        /* Add styling for hiding/showing product cards */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+     <nav>
+        <div>
+            <a id="aboutButton" href="{{ url_for('about') }}">About Me</a>
+            <a id="aboutUsButton" href="{{ url_for('about_us') }}">About Us</a> <!-- Added this line -->
+        </div>
+        <div id="searchContainer">
+            <input type="text" id="searchBar" placeholder="Search...">
+            <button id="searchButton" onclick="search()">Search</button>
+        </div>
+    </nav>
+
+    <!-- Slider Container -->
+    <div class="slider-container">
+        <div class="slider">
+            <!-- Replace these image links with your actual image links from Shutterstock or any other provider -->
+            <div>
+                <img src="https://i.ibb.co/M1hkxzv/a.jpg" alt="Slide 1">
+                <h1>Want books? We've got you covered!</h1>
+            </div>
+            <!--<div><img src="https://ibb.co/n10MNXG" alt="Slide 2"></div>-->
+            <!--<div><img src="https://ibb.co/n10MNXG" alt="Slide 3"></div>-->
+        </div>
+    </div>
+
+    <!-- One-liner about the book store -->
+    <div class="one-liner">
+        <p>Explore our vast collection of books and embark on a journey of knowledge and imagination. Want books? We've got you covered!</p>
+    </div>
+
+    <!-- Product Listing Grid -->
+    <div class="product-listing">
+        {% for book in book_data %}
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300/89c5cc/fff?text=Book" alt="{{ book['title'] }}">
+                <!-- Use a dummy image URL like "https://via.placeholder.com/300/89c5cc/fff?text=Book" for each product -->
+                <div class="product-card-content">
+                    <h3>{{ book['title'] }}</h3>
+                    <p>UPC: {{ book['UPC'] }}</p>
+                    <p>Product Type: {{ book['Product_Type'] }}</p>
+                    <p>Price excl. tax: {{ book['Price_excl_tax'] }}</p>
+                    <p>Price incl. tax: {{ book['Price_incl_tax'] }}</p>
+                    <p>Tax: {{ book['tax'] }}</p>
+                    <p>Availability: {{ book['Availability'] }}</p>
+                    <p>Description: {{ book['Description'] }}</p>
+                    <p>Reviews: {{ book['Reviews'] }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+<section id="addBookSection">
+    <h2>Add a New Book</h2>
+    <form id="addBookForm" method="post" action="{{ url_for('add_book') }}">
+        <label for="bookName">Name of the Book:</label>
+        <input type="text" id="bookName" name="bookName" required><br>
+
+        <label for="upc">UPC Number:</label>
+        <input type="text" id="upc" name="upc" required><br>
+
+        <label for="productType">Product Type:</label>
+        <input type="text" id="productType" name="productType" required><br>
+
+        <label for="priceExclTax">Price (Excluding Tax):</label>
+        <input type="text" id="priceExclTax" name="priceExclTax" required><br>
+
+        <label for="priceInclTax">Price (Including Tax):</label>
+        <input type="text" id="priceInclTax" name="priceInclTax" required><br>
+		
+		<label for="Tax">Tax:</label>
+        <input type="text" id="Tax" name="Tax" required><br>
+
+        <label for="availability">Availability:</label>
+        <input type="text" id="availability" name="availability" required><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br>
+
+        <label for="review">Review:</label>
+        <input type="text" id="review" name="review" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</section>
+    <!-- Footer -->
+    <footer>
+        <p>Dummy Address | Dummy Email ID | Contact: 123-456-7890</p>
+        <!-- Replace the iframe with your actual Google Maps embed code -->
+        <iframe id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.255116478983!2d-75.16378938424595!3d39.953729576965624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6c6e0a3d1adab%3A0x59a3e7ecf176995!2sLiberty%20Bell!5e0!3m2!1sen!2sus!4v1623142961428!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+    </footer>
+
+    <script>
+        // Add a simple search function (you can enhance this based on your needs)
+        function search() {
+            var searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            // Get all product cards
+            var productCards = document.querySelectorAll('.product-card');
+            // Loop through each product card to check if it matches the search term
+            productCards.forEach(function (productCard) {
+                var title = productCard.querySelector('h3').textContent.toLowerCase();
+                var description = productCard.querySelector('.product-card-content p:nth-child(7)').textContent.toLowerCase();
+                // If the title or description contains the search term, show the product; otherwise, hide it
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    productCard.classList.remove('hidden');
+                } else {
+                    productCard.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

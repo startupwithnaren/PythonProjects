@@ -1,0 +1,37 @@
+<!DOCTYPE html>: Declares the document type and version of HTML being used.
+
+<html lang="en">: The root element of the HTML document. The lang attribute specifies the language of the document (English in this case).
+
+<head>: Contains meta-information about the HTML document, such as character set, viewport settings, and the document title.
+
+<meta charset="UTF-8">: Sets the character encoding to UTF-8.
+<meta http-equiv="X-UA-Compatible" content="IE=edge">: Provides information to the browser about the compatibility mode for rendering.
+<meta name="viewport" content="width=device-width, initial-scale=1.0">: Configures the viewport for better responsiveness on different devices.
+<title>Book Database</title>: Sets the title of the HTML document.
+<style>: Contains the CSS styling for the HTML document.
+
+Styling for the navigation bar (nav), including background color, padding, and flex layout.
+Styling for the "About Us" button (#aboutButton).
+Styling for the search bar and button (#searchContainer, #searchBar, and #searchButton).
+Styling for the one-liner about the book store (one-liner).
+Styling for the slider container and images (slider-container, slider, etc.).
+Styling for product listing grid (product-listing) and individual product cards (product-card).
+Styling for the footer (footer).
+Styling for hiding/showing product cards (.hidden).
+<body>: Contains the main content of the HTML document.
+
+Navigation Bar (nav): Includes a link to the "About Us" page and a search bar.
+
+Slider Container (slider-container): Contains a slider with images and captions. The images are placeholders from a third-party service (e.g., Shutterstock).
+
+One-liner about the book store (one-liner): Displays a short paragraph about the book store.
+
+Product Listing Grid (product-listing): Displays a grid of product cards using data from the book_data variable (presumably obtained from a server or database).
+
+Add a New Book Section (addBookSection): Provides a form to add a new book with various input fields.
+
+Footer (footer): Displays contact information and an embedded Google Maps iframe.
+
+JavaScript Section (<script>): Contains a simple search function (search()) that filters product cards based on the search term.
+
+</body> and </html>: Closing tags for the body and HTML document, respectively.
